@@ -20,7 +20,7 @@ npm install telegram-markdown-v2
 ## Quick Start
 
 ```typescript
-import { convertToTelegram } from 'telegram-markdown-v2';
+import { convert } from 'telegram-markdown-v2';
 
 const markdown = `
 # Hello World
@@ -29,29 +29,21 @@ This is **bold text** and *italic text*.
 - List item 2
 `;
 
-const telegramMarkdown = convertToTelegram(markdown);
+const telegramMarkdown = convert(markdown);
 console.log(telegramMarkdown);
 ```
 
 ## API Reference
 
-### `convertToTelegram(markdown: string, options?: ConvertOptions): string`
+### `convert(markdown: string, unsupportedTagsStrategy?: UnsupportedTagsStrategy): string`
 
 Transforms standard Markdown into Telegram MarkdownV2 format.
 
 **Parameters:**
 - `markdown`: The input Markdown string
-- `options`: Optional configuration object
+- `unsupportedTagsStrategy`: Optional strategy for handling unsupported tags (`'keep'` | `'escape'` | `'remove'`). Default: `'keep'`
 
 **Returns:** Formatted string ready for Telegram's `parse_mode: 'MarkdownV2'`
-
-### `escapeSpecialChars(text: string): string`
-
-Escapes special characters that have meaning in Telegram MarkdownV2.
-
-### `splitLongMessage(text: string, maxLength?: number): string[]`
-
-Splits long messages while preserving formatting integrity.
 
 ## Supported Markdown Elements
 
@@ -59,33 +51,35 @@ Splits long messages while preserving formatting integrity.
 |---------|-------|----------------|
 | **Bold** | `**text**` | `*text*` |
 | *Italic* | `*text*` | `_text_` |
+| __Underline__ | `<u>text</u>` | `__text__` |
 | ~~Strikethrough~~ | `~~text~~` | `~text~` |
+| Spoiler | `<span class="tg-spoiler">text</span>` | `||text||` |
 | `Inline Code` | `` `code` `` | `` `code` `` |
 | [Links](url) | `[text](url)` | `[text](url)` |
-| Block Quotes | `> quote` | Properly escaped |
-| Code Blocks | ``` ```lang code``` ``` | ``` ```lang code``` ``` |
+| Block Quotes | `> quote` | Configurable (keep/escape/remove) |
+| Code Blocks | ``` ```lang code``` ``` | ``` ```code``` ``` |
 | Lists | `- item` | `• item` |
 | Headings | `# Title` | `*Title*` |
 
 ## Configuration Options
 
 ```typescript
-interface ConvertOptions {
-  escapeChars?: boolean;        // Auto-escape special chars (default: true)
-  preserveLineBreaks?: boolean; // Keep original line breaks (default: false)
-  maxLength?: number;           // Split messages at this length (default: 4096)
-  headingStyle?: 'bold' | 'underline'; // How to render headings (default: 'bold')
-}
+type UnsupportedTagsStrategy = 'escape' | 'remove' | 'keep';
 ```
+
+**Strategy Options:**
+- `'keep'` (default): Preserve unsupported elements as-is
+- `'escape'`: Escape special characters in unsupported elements  
+- `'remove'`: Remove unsupported elements entirely
 
 ## Examples
 
 ### Basic Formatting
 ```typescript
-import { convertToTelegram } from 'telegram-markdown-v2';
+import { convert } from 'telegram-markdown-v2';
 
 const input = "Check out this **amazing** library with *great* features!";
-const output = convertToTelegram(input);
+const output = convert(input);
 // Result: "Check out this *amazing* library with _great_ features\\!"
 ```
 
@@ -100,7 +94,7 @@ function hello() {
 \`\`\`
 `;
 
-const formatted = convertToTelegram(codeExample);
+const formatted = convert(codeExample);
 // Ready to send via Telegram Bot API
 ```
 
@@ -108,41 +102,48 @@ const formatted = convertToTelegram(codeExample);
 ```typescript
 const listExample = `
 ## Todo List
-- [x] Create awesome library
-- [ ] Write documentation
-- [ ] Publish to npm
+- Create awesome library
+- Write documentation  
+- Publish to npm
 
 Visit [our repo](https://github.com/example/telegram-markdown-v2)
 `;
 
-const telegramReady = convertToTelegram(listExample);
+const telegramReady = convert(listExample);
 ```
 
 ## Advanced Usage
 
-### Custom Options
+### Unsupported Tags Strategy
 ```typescript
-const options = {
-  headingStyle: 'underline' as const,
-  maxLength: 2000,
-  preserveLineBreaks: true
-};
+import { convert } from 'telegram-markdown-v2';
 
-const result = convertToTelegram(markdown, options);
+// Keep unsupported tags as-is (default)
+const keepResult = convert('> This is a blockquote', 'keep');
+// Result: "> This is a blockquote\n"
+
+// Escape special characters in unsupported tags
+const escapeResult = convert('> This is a blockquote', 'escape');
+// Result: "\\> This is a blockquote\n"
+
+// Remove unsupported tags entirely
+const removeResult = convert('> This is a blockquote', 'remove');
+// Result: ""
 ```
 
-### Handling Long Messages
+### Telegram V2 Specific Features
 ```typescript
-import { splitLongMessage, convertToTelegram } from 'telegram-markdown-v2';
+// Underline support
+const underline = convert('This is <u>underlined</u> text');
+// Result: "This is __underlined__ text\n"
 
-const longMarkdown = "... very long content ...";
-const converted = convertToTelegram(longMarkdown);
-const chunks = splitLongMessage(converted, 4000);
+// Spoiler support
+const spoiler = convert('This is <span class="tg-spoiler">hidden</span> text');
+// Result: "This is ||hidden|| text\n"
 
-// Send each chunk separately
-chunks.forEach(chunk => {
-  bot.sendMessage(chatId, chunk, { parse_mode: 'MarkdownV2' });
-});
+// Custom emoji and user mentions
+const mentions = convert('[John](tg://user?id=123) sent ![👍](tg://emoji?id=456)');
+// Result: "[John](tg://user\\?id\\=123) sent [👍](tg://emoji\\?id\\=456)\n"
 ```
 
 ## Common Issues & Solutions
@@ -151,10 +152,13 @@ chunks.forEach(chunk => {
 The library automatically escapes Telegram's special characters: `_*[]()~`#+-=|{}.!`
 
 ### Message Length
-Telegram limits messages to 4096 characters. Use `splitLongMessage()` for longer content.
+Telegram limits messages to 4096 characters. You'll need to implement message splitting in your application.
 
 ### Formatting Conflicts
 If your Markdown doesn't render correctly, check for unmatched formatting marks or nested styles.
+
+### Unsupported Elements
+Elements like tables, blockquotes, and HTML tags can be handled using the `unsupportedTagsStrategy` parameter.
 
 ## Development
 
