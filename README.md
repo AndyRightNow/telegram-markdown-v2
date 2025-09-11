@@ -109,7 +109,7 @@ const formatted = convertToTelegram(codeExample);
 const listExample = `
 ## Todo List
 - [x] Create awesome library
-- [ ] Write documentation  
+- [ ] Write documentation
 - [ ] Publish to npm
 
 Visit [our repo](https://github.com/example/telegram-markdown-v2)
@@ -185,7 +185,7 @@ bun run lint
 
 ## License
 
-MIT © 2024
+MIT © 2025
 
 ## Acknowledgments
 
