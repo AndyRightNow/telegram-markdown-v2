@@ -1,0 +1,77 @@
+{
+  "name": "telegram-markdown-v2",
+  "version": "0.0.1",
+  "description": "Convert markdown into Telegram Markdown V2 format with TypeScript support",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "format": "prettier --write .",
+    "dev": "tsc --watch",
+    "test": "bun test",
+    "lint": "eslint src tests --fix",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run clean && bun run build && bun run test",
+    "prepack": "bun run build"
+  },
+  "keywords": [
+    "telegram",
+    "markdown",
+    "markdown-processor",
+    "parser",
+    "markdown-v2",
+    "typescript",
+    "remark",
+    "unified"
+  ],
+  "author": "Claude Code",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/telegram-markdown-v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/telegram-markdown-v2/issues"
+  },
+  "homepage": "https://github.com/your-username/telegram-markdown-v2#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/bun": "latest",
+    "eslint": "^9.35.0",
+    "prettier-plugin-organize-imports": "^4.2.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
+  },
+  "dependencies": {
+    "@types/mdast": "^4.0.4",
+    "mdast-util-gfm-table": "^2.0.0",
+    "mdast-util-phrasing": "^4.1.0",
+    "mdast-util-to-markdown": "^2.1.2",
+    "mdast-util-to-string": "^4.0.0",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-remove-comments": "^1.1.1",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-remove": "^4.0.0",
+    "unist-util-visit": "^5.0.0"
+  }
+}

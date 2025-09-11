@@ -1,0 +1,72 @@
+# Source files
+src/
+tests/
+# Legacy folder name removed
+
+# Build and development files
+.bun-build-cache
+tsconfig.json
+.eslintrc.*
+eslint.config.*
+prettier.config.*
+bun.lock
+
+# Development environment
+.env
+.env.*
+.vscode/
+.idea/
+
+# Test files
+**/*.test.*
+**/*.spec.*
+coverage/
+.nyc_output/
+
+# Documentation (keep README.md and LICENSE)
+docs/
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Git and CI/CD
+.git/
+.github/
+.gitignore
+.gitattributes
+.travis.yml
+.circleci/
+.jenkins/
+
+# Logs and runtime files
+*.log
+logs/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories (node_modules is ignored by default)
+.npm
+.pnpm-store/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Editor backup files
+*~
+*.swp
+*.swo
+*#
+.#*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
