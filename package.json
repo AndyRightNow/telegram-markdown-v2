@@ -42,14 +42,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/telegram-markdown-v2.git"
+    "url": "git+https://github.com/andyrightnow/telegram-markdown-v2.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/telegram-markdown-v2/issues"
+    "url": "https://github.com/andyrightnow/telegram-markdown-v2/issues"
   },
-  "homepage": "https://github.com/your-username/telegram-markdown-v2#readme",
+  "homepage": "https://github.com/andyrightnow/telegram-markdown-v2#readme",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0",
+    "bun": ">=1.2.20"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
