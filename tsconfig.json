@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": ["ESNext"],
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleDetection": "force",
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
     "allowJs": true,
+    "types": ["bun"],
 
     // Output configuration
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "declarationMap": false,
+    "sourceMap": false,
 
     // Module resolution
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
 
     // Best practices
