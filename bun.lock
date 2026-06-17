@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "telegram-markdown-v2",
@@ -23,10 +24,8 @@
         "@types/bun": "latest",
         "eslint": "^9.35.0",
         "prettier-plugin-organize-imports": "^4.2.0",
-        "typescript-eslint": "^8.43.0",
-      },
-      "peerDependencies": {
         "typescript": "^5.9.2",
+        "typescript-eslint": "^8.43.0",
       },
     },
   },
