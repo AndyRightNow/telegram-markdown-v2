@@ -77,6 +77,9 @@ export function convert(
     .toString()
     .replace(/<!---->\n/gi, ''); // Remove empty HTML comments
 
+  // Collapse excessive blank lines (4+ newlines) outside of code blocks
+  result = result.replace(/(```[\s\S]*?```)|(\n{4,})/g, (match, codeBlock) => codeBlock || '\n\n');
+
   // Post-process to restore V2 formatting
   result = postprocessV2Formatting(result);
 
