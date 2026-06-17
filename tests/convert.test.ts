@@ -402,3 +402,40 @@ test('Complex nesting with all V2 features', () => {
   const tgMarkdown = '_*__||nested||__*_\n';
   expect(convert(markdown)).toBe(tgMarkdown);
 });
+
+// Issue #3: Horizontal rules produce invalid MarkdownV2
+test('Horizontal rule *** (issue #3)', () => {
+  const markdown = 'above\n\n***\n\nbelow';
+  const tgMarkdown = 'above\n\n———\n\nbelow\n';
+  expect(convert(markdown)).toBe(tgMarkdown);
+});
+
+test('Horizontal rule --- (issue #3)', () => {
+  const markdown = 'above\n\n---\n\nbelow';
+  const tgMarkdown = 'above\n\n———\n\nbelow\n';
+  expect(convert(markdown)).toBe(tgMarkdown);
+});
+
+test('Horizontal rule ___ (issue #3)', () => {
+  const markdown = 'above\n\n___\n\nbelow';
+  const tgMarkdown = 'above\n\n———\n\nbelow\n';
+  expect(convert(markdown)).toBe(tgMarkdown);
+});
+
+test('Horizontal rule with escape strategy (issue #3)', () => {
+  const markdown = 'above\n\n***\n\nbelow';
+  const tgMarkdown = 'above\n\n———\n\nbelow\n';
+  expect(convert(markdown, 'escape')).toBe(tgMarkdown);
+});
+
+test('Horizontal rule with remove strategy (issue #3)', () => {
+  const markdown = 'above\n\n***\n\nbelow';
+  const tgMarkdown = 'above\n\nbelow\n';
+  expect(convert(markdown, 'remove')).toBe(tgMarkdown);
+});
+
+test('Horizontal rule does not leak unescaped *** (issue #3)', () => {
+  const markdown = 'above\n\n***\n\nbelow';
+  const result = convert(markdown);
+  expect(/(?<!\\)\*\*\*/.test(result)).toBe(false);
+});

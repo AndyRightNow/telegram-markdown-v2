@@ -1,7 +1,7 @@
 import type { Handlers, Options } from 'mdast-util-to-markdown';
 
 import type { DefinitionsRecord, UnsupportedTagsStrategy } from '../types.js';
-import { handleBlockquote, handleHtml, handleList, handleListItem, handleTable } from './blocks.js';
+import { handleBlockquote, handleHtml, handleList, handleListItem, handleThematicBreak, handleTable } from './blocks.js';
 import { handleDelete, handleEmphasis, handleHeading, handleStrong } from './formatting.js';
 import { handleImage, handleImageReference, handleLink, handleLinkReference } from './links.js';
 import { handleCode, handleInlineCode, handleText } from './text.js';
@@ -31,6 +31,7 @@ function createHandlers(
     blockquote: handleBlockquote(unsupportedTagsStrategy),
     html: handleHtml(unsupportedTagsStrategy),
     table: handleTable(unsupportedTagsStrategy),
+    thematicBreak: handleThematicBreak(unsupportedTagsStrategy),
   };
 }
 

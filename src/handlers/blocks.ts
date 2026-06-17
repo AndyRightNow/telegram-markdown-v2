@@ -94,6 +94,14 @@ export function handleHtml(
   };
 }
 
+export function handleThematicBreak(
+  unsupportedTagsStrategy: UnsupportedTagsStrategy
+) {
+  return function (): string {
+    return processUnsupportedTags('———', unsupportedTagsStrategy);
+  };
+}
+
 export function handleTable(
   unsupportedTagsStrategy: UnsupportedTagsStrategy
 ) {
