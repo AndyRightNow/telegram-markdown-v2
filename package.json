@@ -1,6 +1,6 @@
 {
   "name": "telegram-markdown-v2",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Convert markdown into Telegram Markdown V2 format with TypeScript support",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
